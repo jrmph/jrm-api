@@ -5,8 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="theme-color" content="#111827">
+    <meta name="robots" content="index, follow">
+    <meta name="keywords" content="API documentation, RESTful APIs, developer tools, dark theme API dashboard">
+    <meta property="og:title" content="">
+    <meta property="og:description" content="">
+    <meta property="og:type" content="website">
     <title></title>
     <link rel="icon" href="" type="image/png">
+    <link rel="canonical" href="/">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -36,6 +42,7 @@
             height: 100%;
             background: #111827;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             z-index: 1000;
@@ -57,14 +64,71 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+        .loading-text {
+            margin-top: 16px;
+            font-size: 1.25rem;
+            color: #d1d5db;
+        }
+        .loading-text::after {
+            display: inline-block;
+            content: '...';
+            animation: loading-dots 1.5s steps(4, end) infinite;
+            width: 1em;
+        }
+        @keyframes loading-dots {
+            0% { content: ''; }
+            25% { content: '.'; }
+            50% { content: '..'; }
+            75% { content: '...'; }
+            100% { content: ''; }
+        }
+        .transition-all {
+            transition: all 0.3s ease;
+        }
     </style>
 </head>
 <body class="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-gray-200 antialiased font-mono min-h-screen">
     <!-- Loader -->
     <div id="loader">
         <div class="spinner"></div>
+        <span class="loading-text">Loading</span>
     </div>
-    <header class="sticky top-0 z-50 bg-gray-900 border-b border-gray-700 py-5"></header>
+
+    <!-- Sidebar -->
+    <div id="sidebar" class="fixed left-0 top-0 h-full w-64 bg-gray-900 z-[60] transform -translate-x-full transition-transform duration-300 ease-in-out overflow-y-auto shadow-2xl">
+        <div class="py-4 px-4 flex justify-between items-center border-b border-gray-800">
+            <h3 class="text-lg font-semibold text-gray-100">API Categories</h3>
+            <button onclick="closeSidebar()" class="text-gray-400 hover:text-gray-100">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+        </div>
+        <div id="sidebarContent" class="pt-4 px-4 space-y-3"></div>
+    </div>
+
+    <!-- Overlay -->
+    <div id="overlay" class="fixed inset-0 bg-black/50 hidden z-[50]" onclick="closeSidebar()"></div>
+
+    <!-- Notification Panel -->
+    <div id="notificationPanel" class="hidden fixed top-12 right-4 bg-gray-800 border border-gray-700 p-4 z-[60] shadow-xl rounded-lg w-80 max-h-96 overflow-y-auto transition-all">
+        <div class="flex justify-between items-center mb-3">
+            <h4 class="text-sm font-bold text-gray-100">Notifications</h4>
+            <button id="clearNotifications" class="text-blue-400 text-xs hover:text-blue-300">Clear All</button>
+        </div>
+        <div id="notifContent" class="space-y-3"></div>
+    </div>
+
+    <header class="sticky top-0 z-50 bg-gray-900 border-b border-gray-700 py-4 shadow-md">
+        <div class="max-w-2xl mx-auto flex justify-between items-center px-4">
+            <button onclick="toggleSidebar()" class="pl-2 transition-all hover:scale-110">
+                <i class="fas fa-bars text-gray-100 text-xl"></i>
+            </button>
+            <h1 class="text-lg font-bold text-gray-100">Dashboard</h1>
+            <button onclick="toggleNotifications()" class="pr-2 relative transition-all hover:scale-110">
+                <i class="fas fa-bell text-gray-100 text-xl"></i>
+                <span id="notifBadge" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full px-1 hidden"></span>
+            </button>
+        </div>
+    </header>
 
     <main class="max-w-2xl mx-auto px-8 py-10">
         <div class="text-left mb-4">
@@ -74,20 +138,45 @@
             <div id="linksDiv" class="mb-5 text-xs space-y-1"></div>
         </div>
 
-        <div class="bg-gray-800 border border-gray-700 p-4 mb-4">
+        <div class="bg-gray-800 border border-gray-700 p-4 mb-4 rounded-lg shadow-xl transition-all hover:shadow-2xl">
             <div class="grid grid-cols-2 gap-4">
                 <div class="text-center">
-                    <div class="text-lg font-bold text-gray-100" id="totalEndpoints"></div>
+                    <div class="text-lg font-bold text-gray-100 flex justify-center items-center rounded-lg" id="totalEndpoints"><i class="fa-solid fa-gem mr-1 text-gray-400"></i></div>
                     <div class="text-xs text-gray-500">Total Endpoints</div>
                 </div>
                 <div class="text-center">
-                    <div class="text-lg font-bold text-gray-100" id="totalCategories"></div>
+                    <div class="text-lg font-bold text-gray-100 flex justify-center items-center rounded-lg" id="totalCategories"><i class="fa-solid fa-shapes mr-1 text-gray-400"></i></div>
                     <div class="text-xs text-gray-500">Categories</div>
                 </div>
             </div>
         </div>
 
-        <div id="categoryList" class="space-y-3"></div>
+        <div class="bg-gray-800 p-6 mb-4 border border-gray-700 rounded-lg shadow-xl transition-all hover:shadow-2xl">
+            <h2 class="text-xl font-bold mb-4 flex items-center text-gray-100"><span class="material-icons mr-2 text-blue-500">rocket_launch</span> Getting Started</h2>
+            <ol class="space-y-6">
+                <li class="flex">
+                    <div class="flex-shrink-0 w-8 h-8 bg-blue-600 text-white font-bold text-center leading-8 mr-4 rounded-lg transition-all hover:bg-blue-500">1</div>
+                    <div>
+                        <h3 class="font-bold text-gray-100">Choose Your Category</h3>
+                        <p class="text-gray-400 text-xs">Browse through available API categories on sidebar and select what you need.</p>
+                    </div>
+                </li>
+                <li class="flex">
+                    <div class="flex-shrink-0 w-8 h-8 bg-blue-600 text-white font-bold text-center leading-8 mr-4 rounded-lg transition-all hover:bg-blue-500">2</div>
+                    <div>
+                        <h3 class="font-bold text-gray-100">Read the Docs</h3>
+                        <p class="text-gray-400 text-xs">Check endpoint parameters, response format, and example usage.</p>
+                    </div>
+                </li>
+                <li class="flex">
+                    <div class="flex-shrink-0 w-8 h-8 bg-blue-600 text-white font-bold text-center leading-8 mr-4 rounded-lg transition-all hover:bg-blue-500">3</div>
+                    <div>
+                        <h3 class="font-bold text-gray-100">Make Your Request</h3>
+                        <p class="text-gray-400 text-xs">Send HTTP requests and integrate the JSON response into your app.</p>
+                    </div>
+                </li>
+            </ol>
+        </div>
 
         <div class="flex flex-col mt-6">
             <p class="text-gray-500 text-xs">Thx To All Users And Contributors.</p>
@@ -96,6 +185,53 @@
     </main>
 
     <script>
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+        const sidebarContent = document.getElementById('sidebarContent');
+        const notificationPanel = document.getElementById('notificationPanel');
+        const notifContent = document.getElementById('notifContent');
+        const clearNotificationsBtn = document.getElementById('clearNotifications');
+        const notifBadge = document.getElementById('notifBadge');
+
+        function toggleSidebar() {
+            if (sidebar.classList.contains('-translate-x-full')) {
+                sidebar.classList.remove('-translate-x-full');
+                overlay.classList.remove('hidden');
+                notificationPanel.classList.add('hidden');
+                document.body.style.overflow = 'hidden';
+            } else {
+                closeSidebar();
+            }
+        }
+
+        function closeSidebar() {
+            sidebar.classList.add('-translate-x-full');
+            overlay.classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
+        function toggleNotifications() {
+            if (notificationPanel.classList.contains('hidden')) {
+                notificationPanel.classList.remove('hidden');
+                closeSidebar();
+            } else {
+                notificationPanel.classList.add('hidden');
+            }
+        }
+
+        document.addEventListener('click', (event) => {
+            if (!event.target.closest('header') && !event.target.closest('#sidebar') && !event.target.closest('#notificationPanel')) {
+                closeSidebar();
+                notificationPanel.classList.add('hidden');
+            }
+        });
+
+        clearNotificationsBtn.addEventListener('click', () => {
+            localStorage.setItem('notificationsCleared', 'true');
+            notifContent.innerHTML = '<p class="text-xs text-gray-400">No notifications yet.</p>';
+            notifBadge.classList.add('hidden');
+        });
+
         window.addEventListener('load', async () => {
             const loader = document.getElementById('loader');
             try {
@@ -104,49 +240,69 @@
 
                 document.title = `${setData.name}.`;
                 document.querySelector('meta[name="description"]').content = setData.description;
+                document.querySelector('meta[property="og:title"]').content = `${setData.name}.`;
+                document.querySelector('meta[property="og:description"]').content = setData.description;
                 document.querySelector('link[rel="icon"]').href = setData.icon;
                 document.querySelector('h2').textContent = `${setData.name}.`;
                 document.querySelector('p.mx-auto.mb-4').textContent = setData.description;
-                document.getElementById('linksDiv').innerHTML = `
-                    <div>
-                        <a href="${setData.telegram}" target="_blank" class="text-gray-100 underline hover:text-blue-400">Telegram Channel.</a>
-                    </div>
-                `;
                 document.getElementById('footerCopyright').textContent = `© ${setData.name}. | All Rights Reserved.`;
+
+                // Notifications
+                const cleared = localStorage.getItem('notificationsCleared') === 'true';
+                const notifications = cleared ? [] : (setData.notification || []);
+                let notifHtml = '';
+                if (notifications.length > 0) {
+                    notifHtml = notifications.map(n => `
+                        <div class="border-b border-gray-700 py-2 last:border-0">
+                            <h5 class="text-xs font-bold text-gray-100">${n.title}</h5>
+                            <p class="text-xs text-gray-400">${n.message}</p>
+                        </div>
+                    `).join('');
+                    notifBadge.textContent = notifications.length;
+                    notifBadge.classList.remove('hidden');
+                } else {
+                    notifHtml = '<p class="text-xs text-gray-400">No notifications yet.</p>';
+                }
+                notifContent.innerHTML = notifHtml;
 
                 const endpointsRes = await fetch('/endpoints');
                 const endpointsData = await endpointsRes.json();
                 const endpoints = endpointsData.endpoints;
 
-                document.getElementById('totalEndpoints').textContent = endpointsData.count;
-                document.getElementById('totalCategories').textContent = endpoints.length;
+                document.getElementById('totalEndpoints').innerHTML = `<i class="fa-solid fa-gem mr-1 text-gray-400"></i>${endpointsData.count}`;
+                document.getElementById('totalCategories').innerHTML = `<i class="fa-solid fa-shapes mr-1 text-gray-400"></i>${endpoints.length}`;
 
-                const list = document.getElementById('categoryList');
-                list.innerHTML = '';
-
+                let sidebarHtml = `
+                    <a href="/" class="flex items-center px-3 py-2 text-gray-100 hover:bg-gray-800 rounded-md transition-all hover:shadow-sm ${location.pathname === '/' ? 'bg-gray-800' : ''}">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 mr-3 text-blue-400">
+                            <path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/>
+                        </svg>
+                        Dashboard
+                    </a>
+                    <div class="border-t border-gray-800 my-2"></div>
+                    <p class="text-gray-400 text-sm mb-2 font-medium">Available Categories</p>
+                `;
                 for (const cat of endpoints) {
                     const capitalizedName = cat.name.charAt(0).toUpperCase() + cat.name.slice(1);
-                    const a = document.createElement('a');
-                    a.href = `/category/${cat.name.toLowerCase().replace(/\s+/g, '-')}`;
-                    a.classList.add('block');
-                    a.innerHTML = `
-                        <div class="bg-gray-800 border border-gray-700 hover:border-blue-500">
-                            <div class="px-4 py-4 flex items-center justify-between">
-                                <div class="flex items-center min-w-0 flex-1">
-                                    <span class="material-icons text-2xl mr-4 text-gray-300">folder</span>
-                                    <div class="flex flex-col min-w-0 flex-1">
-                                        <h3 class="font-bold text-sm text-gray-100 truncate">${capitalizedName}</h3>
-                                        <p class="text-xs text-gray-500">${cat.items.length} endpoints</p>
-                                    </div>
-                                </div>
-                                <span class="material-icons text-gray-500">chevron_right</span>
-                            </div>
-                        </div>
+                    const slug = cat.name.toLowerCase().replace(/\s+/g, '-');
+                    const active = location.pathname === `/category/${slug}`;
+                    sidebarHtml += `
+                        <a href="/category/${slug}" class="flex items-center px-3 py-2 text-gray-100 hover:bg-gray-800 rounded-md transition-all hover:shadow-sm ${active ? 'bg-gray-800' : ''}">
+                            <i class="fas fa-folder mr-3 text-blue-400"></i>
+                            ${capitalizedName} (${cat.items.length})
+                        </a>
                     `;
-                    list.appendChild(a);
                 }
+                sidebarHtml += `
+                    <div class="border-t border-gray-800 my-2"></div>
+                    <p class="text-gray-400 text-sm mb-2 font-medium">Links</p>
+                    <a href="${setData.telegram}" target="_blank" class="flex items-center px-3 py-2 text-gray-100 hover:bg-gray-800 rounded-md transition-all hover:shadow-sm">
+                        <i class="fab fa-telegram-plane mr-3 text-blue-400"></i>
+                        Telegram Channel
+                    </a>
+                `;
+                sidebarContent.innerHTML = sidebarHtml;
             } finally {
-                // Hide loader after data is loaded
                 loader.classList.add('hidden');
             }
         });
