@@ -1,4 +1,4 @@
-# Shin API UI — README.md (Updated)
+# Shin API UI
 
 > Interactive REST API documentation + sandbox UI for file-based API endpoints.
 > **Live demo:** [https://shin-apis.onrender.com/](https://shin-apis.onrender.com/)
