@@ -1,36 +1,56 @@
-# Shin API UI — README.md
+# Shin API UI — README.md (Updated)
 
-> Interactive REST API documentation + sandbox UI for simple, file-based API endpoints.
+> Interactive REST API documentation + sandbox UI for file-based API endpoints.
 > **Live demo:** [https://shin-apis.onrender.com/](https://shin-apis.onrender.com/)
+>
+> **Note:** Shin API UI is the successor of **Wataru API** ([https://github.com/ajirodesu/wataru-api](https://github.com/ajirodesu/wataru-api)). It preserves compatibility with Wataru-style endpoint files and supports both the Shin `meta` format and Wataru's `meta.path` conventions.
 
-Shin API UI is a lightweight interface for documenting and exposing small REST endpoints as individual `.js` files under an `api/` folder. It’s inspired by and built on top of Rynn’s simple API UI approach [https://github.com/rynn-k/Rynn-UI](https://github.com/rynn-k/Rynn-UI) — special thanks to rynn-k for the original project.
+---
 
 # Table of contents
 
 * About
+* Key changes from Wataru API
 * Features
 * Quick start
 * `settings.js` — configuration (example + field reference)
-* Adding a new API (file format / template)
-* Example: `lyrics` (full example file)
+* Endpoint file format / template (Wataru-compatible)
+* Example: `hello.js` (Wataru-style path example)
+* Example: `lyrics.js`)
 * How to call / test an endpoint (live example)
-* Response format conventions
+* Response format conventions & best practices
 * Deploying
 * Contributing & credits
 * License
 
+---
+
 # About
 
-Shin API UI provides a readable web interface and a small REST server that serves API files placed in the `api/` folder. Each API file exports a `meta` object (for the UI) and an `onStart` function that handles incoming requests. The UI reads `settings.js` at runtime to build the documentation page and header.
+Shin API UI is a lightweight UI and tiny Node server for documenting and exposing REST endpoints created as individual `.js` files under an `api/` folder. Each endpoint exports a `meta` object (used by the UI) and an `onStart` function that handles the incoming request.
+
+This project is the successor to Wataru API ([https://github.com/ajirodesu/wataru-api](https://github.com/ajirodesu/wataru-api)). It was designed to be backwards-compatible, so endpoints written for Wataru API will work with Shin API UI with little or no change.
+
+# Key changes from Wataru API
+
+* Modernized UI and branding (Shin).
+* Maintains support for Wataru-style `meta.path` when present — the server will attempt to honor `meta.path` as the exposed route.
+* Cleaner response conventions: by default Shin responses.
+* Extended `meta` support (author, version, category, and optional `path` field to match Wataru-style files).
+
+---
 
 # Features
 
-* Drop-in API files (each file is a self-contained endpoint)
-* Simple `meta` object used by the UI to describe the endpoint
-* Standardized JSON response patterns (success, 400, 404, 500)
-* Customizable `settings.js` for branding, links, and notifications
-* Ready to deploy to Vercel / Render / any Node host
-* Live demo available: [https://shin-apis.onrender.com/](https://shin-apis.onrender.com/)
+* Drop-in API files (each file is a self-contained endpoint).
+* `meta` object used by the UI to describe each endpoint.
+* Support for Wataru-compatible `meta.path` routing when provided.
+* Standard JSON response patterns (200, 400, 404, 500) by convention.
+* Customizable `settings.js` for branding, links, and notifications.
+* Ready to deploy on Vercel / Render / any Node host.
+* Live demo: [https://shin-apis.onrender.com/](https://shin-apis.onrender.com/)
+
+---
 
 # Quick start
 
@@ -59,27 +79,25 @@ npm start
 node index.js
 ```
 
+Open the UI in your browser (default: `http://localhost:<PORT>`).
+
+---
+
 # `settings.js` — configuration
 
-Example `settings.js` (the one you provided):
+Example `settings.js`:
 
 ```js
 module.exports = {
-    name: 'Shin APIs',
-    description: 'This interactive interface allows you to explore and test our comprehensive collection of API endpoints in real-time.',
-    icon: '/docs/image/icon.png',
-    author: 'ShinDesu',
-    telegram: 'https://t.me/+AQO22J2q6KBlNWM1',
-    notification: [ 
-        {
-            title: 'New API Added',
-            message: 'Blue Achieve and Loli API have been added to the documentation.',
-        },
-        {
-            title: 'System Update',
-            message: 'The API documentation system has been updated to version 0.0.2'
-        }
-    ]
+  name: 'Shin APIs',
+  description: 'This interactive interface allows you to explore and test our comprehensive collection of API endpoints in real-time.',
+  icon: '/docs/image/icon.png',
+  author: 'ShinDesu',
+  telegram: 'https://t.me/+AQO22J2q6KBlNWM1',
+  notification: [
+    { title: 'New API Added', message: 'Blue Achieve and Loli API have been added to the documentation.' },
+    { title: 'System Update', message: 'The API documentation system has been updated to version 0.0.2' }
+  ]
 };
 ```
 
@@ -88,46 +106,94 @@ module.exports = {
 * `name` — Display name for the UI.
 * `description` — Short description shown in header/home.
 * `icon` — Path or URL to an icon used in the UI.
-* `author` — Your name / project owner.
+* `author` — Project owner / maintainer.
 * `telegram` — Contact / support link (optional).
-* `notification` — Array of notification objects `{ title, message }` shown in UI (optional).
+* `notification` — Array of `{ title, message }` shown in UI (optional).
 
-# Adding a new API
+---
 
-Each endpoint file goes in the `api/` directory and must export:
+# Endpoint file format / template (Wataru-compatible)
 
-* `meta` — endpoint metadata used by the UI (name, desc, method, category, guide, params).
-* `onStart` — async function `onStart({ req, res })` that receives the Node/Express `req` and `res`.
+Shin expects each endpoint file in the `api/` folder to export at least two things:
 
-**Minimal empty template** (safe scaffold — the "API format is empty" as requested):
+* `meta` — metadata used by the UI and by the server to expose the endpoint.
+* `onStart` — an async function that receives the Node/Express `req` and `res` objects and handles the request.
+
+Shin is compatible with the Wataru-style `meta.path`. If `meta.path` is present, Shin will try to expose the endpoint at that path. If absent, Shin will derive the path from `meta.category` and `meta.name` (for example: `/search/lyrics`).
+
+**Recommended `meta` fields**
+
+* `name` — short identifier for this endpoint (string).
+* `version` — semantic version of the endpoint (string).
+* `desc` or `description` — short description shown in the UI.
+* `author` — endpoint author (string).
+* `method` — HTTP method this endpoint expects (`get`, `post`, etc.).
+* `category` — grouping for the UI (string).
+* `path` — *optional* explicit route (Wataru-compatible). Example: `/hello?name=`.
+* `guide` — object describing parameters (`{ paramName: 'description' }`).
+* `params` — array of param names for the UI.
+
+**Minimal template (recommended)**
 
 ```js
 // api/template.js
 const meta = {
-  name: '',         // e.g. 'myapi'
-  desc: '',         // short description
+  name: '',
+  version: '1.0.0',
+  desc: '',
+  author: '',
   method: 'get',
   category: 'general',
-  guide: {},        // { paramName: 'description' }
-  params: []        // ['param1', 'param2']
+  // Optional: if you want a custom route like Wataru API, set path
+  // path: '/myroute?param=' // Wataru-compatible
+  guide: {},
+  params: []
 };
 
 async function onStart({ req, res }) {
   // TODO: implement your endpoint logic
-  // Example: return 501 not implemented for template
-  return res.status(501).json({
-    error: 'Not implemented'
-  });
+  return res.status(501).json({ error: 'Not implemented' });
 }
 
 module.exports = { meta, onStart };
 ```
 
-Copy the template, rename it to your endpoint (e.g. `myapi.js`) and implement `meta` + `onStart`.
+---
 
-# Example: `lyrics.js` (updated — no timestamps, no `powered_by`)
+# Example: `hello.js` (Wataru-style path)
 
-This is the example endpoint you gave — modified so responses do **not** include `timestamp` or `powered_by`.
+This example demonstrates using `meta.path` (Wataru compatibility). The server will try to expose the endpoint at the path declared in `meta.path`. The `onStart` respects query parameters provided in the `path` example.
+
+```js
+// api/hello.js
+const meta = {
+  name: 'hello',
+  version: '1.0.0',
+  description: 'A simple example API that returns a greeting message',
+  author: 'Your Name',
+  method: 'get',
+  category: 'examples',
+  // Optional Wataru-style path — Shin will honor if present
+  path: '/hello?name='
+};
+
+async function onStart({ req, res }) {
+  // Extract the 'name' parameter from the query string
+  const { name } = req.query;
+
+  // Default to 'World' if no name is provided
+  const greeting = name ? `Hello, ${name}!` : 'Hello, World!';
+
+  // Return a simple JSON response
+  return res.json({ message: greeting });
+}
+
+module.exports = { meta, onStart };
+```
+
+---
+
+# Example: `lyrics.js`)
 
 ```js
 // api/lyrics.js
@@ -136,10 +202,7 @@ const meta = {
   desc: 'retrieves lyrics for a specified song and artist',
   method: 'get',
   category: 'search',
-  guide: {
-    artist: 'The artist of the song',
-    song: 'The title of the song',
-  },
+  guide: { artist: 'The artist of the song', song: 'The title of the song' },
   params: ['artist', 'song']
 };
 
@@ -147,9 +210,7 @@ async function onStart({ req, res }) {
   const { artist, song } = req.query;
 
   if (!artist || !song) {
-    return res.status(400).json({
-      error: 'Missing required parameters: artist and song'
-    });
+    return res.status(400).json({ error: 'Missing required parameters: artist and song' });
   }
 
   try {
@@ -158,25 +219,21 @@ async function onStart({ req, res }) {
     const data = await response.json();
 
     if (data.lyrics) {
-      return res.json({
-        lyrics: data.lyrics
-      });
+      return res.json({ lyrics: data.lyrics });
     } else {
-      return res.status(404).json({
-        error: 'Lyrics not found'
-      });
+      return res.status(404).json({ error: 'Lyrics not found' });
     }
   } catch (error) {
-    return res.status(500).json({
-      error: 'Internal server error'
-    });
+    return res.status(500).json({ error: 'Internal server error' });
   }
 }
 
 module.exports = { meta, onStart };
 ```
 
-# How to call / test an endpoint (live example)
+---
+
+# How to call / test an endpoint
 
 **Local pattern**
 
@@ -184,7 +241,9 @@ module.exports = { meta, onStart };
 GET http://localhost:<PORT>/<category>/<endpoint>?param1=value1&param2=value2
 ```
 
-**Live example (public):**
+**If an endpoint uses `meta.path` (Wataru-style), the server will attempt to expose it at that path.**
+
+**Live example (public)**
 
 ```
 GET https://shin-apis.onrender.com/search/lyrics?artist=Adele&song=Hello
@@ -196,62 +255,63 @@ GET https://shin-apis.onrender.com/search/lyrics?artist=Adele&song=Hello
 curl "https://shin-apis.onrender.com/api/lyrics?artist=Adele&song=Hello"
 ```
 
-**Example responses (note: no timestamps/powered_by):**
+**Example responses:**
 
 * **Success (200)**
 
 ```json
-{
-  "lyrics": "Hello, it's me..."
-}
+{ "lyrics": "Hello, it's me..." }
 ```
 
-* **Bad request (400)** (missing required params)
+* **Bad request (400)**
 
 ```json
-{
-  "error": "Missing required parameters: artist and song"
-}
+{ "error": "Missing required parameters: artist and song" }
 ```
 
 * **Not found (404)**
 
 ```json
-{
-  "error": "Lyrics not found"
-}
+{ "error": "Lyrics not found" }
 ```
 
 * **Server error (500)**
 
 ```json
-{
-  "error": "Internal server error"
-}
+{ "error": "Internal server error" }
 ```
+
+---
 
 # Response format conventions & best practices
 
-* Use proper HTTP codes (200, 400, 404, 500).
-* Keep JSON payloads concise and consistent — avoid including timestamps or internal attribution (unless you want them).
+* Use proper HTTP status codes (200, 400, 404, 500).
+* Keep JSON payloads concise and consistent — avoid including timestamps or internal attribution unless explicitly desired.
 * Clearly document required/optional params in `meta.guide`.
-* For endpoints that call slow external services, consider caching and/or rate-limiting.
+* If an endpoint queries slow external services, consider caching and/or rate-limiting.
+* If you rely on `meta.path`, make sure query placeholders (e.g. `?name=`) match the parameters documented in `meta.guide`.
+
+---
 
 # Deploying
 
 * The repo is compatible with Vercel, Render, and other Node hosts.
 * For the public demo, see: [https://shin-apis.onrender.com/](https://shin-apis.onrender.com/)
-* On hosts like Render or Vercel, simply connect the GitHub repo and follow their deployment flow. Ensure the entry script (e.g. `index.js`) and `start` script in `package.json` are correct.
+* On hosts like Render or Vercel, connect the GitHub repo and follow their deployment flow. Ensure `index.js` and `package.json` `start` script are correct.
+
+---
 
 # Contributing & credits
 
-This project is based on Rynn’s REST API UI design — **special thanks to [https://github.com/rynn-k](https://github.com/rynn-k)** for the original project that served as the base. The repository `Shin-API-UI` is an adaptation and extension by `ajirodesu`.
+This project is based on Rynn’s REST API UI design — special thanks to [https://github.com/rynn-k](https://github.com/rynn-k) for the original project. The repository `Shin-API-UI` is an adaptation and extension by `ajirodesu`.
 
-If you want to contribute:
+Contributing guidelines:
 
 1. Fork the repo.
 2. Add your API file(s) to `/api`.
 3. Open a pull request with a short description of the endpoint(s) you added.
+
+---
 
 # License
 
