@@ -295,10 +295,11 @@
             let text = '';
 
             if (elementId.startsWith('response-content-')) {
-                const header = element.querySelector('.text-gray-400');
-                const body = element.querySelector('pre.text-white');
-                text = (header ? header.textContent : '') + '\n' + (body ? body.textContent : '');
-                text = text.replace(/\n\s*\n/g, '\n').trim();
+                const headerPres = element.querySelectorAll('.text-gray-400 pre');
+                const headerText = Array.from(headerPres).map(pre => pre.textContent.trim()).join('\n');
+                const bodyPre = element.querySelector('pre.text-white');
+                const bodyText = bodyPre ? bodyPre.textContent : '';
+                text = headerText + (bodyText ? '\n\n' + bodyText : '');
             } else if (elementId.startsWith('curl-content-')) {
                 text = element.textContent.replace(/\s*\\\n\s*/g, ' \\\n  ').trim();
             }
