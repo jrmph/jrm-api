@@ -15,7 +15,7 @@ const meta = {
     { 
       name: 'song',
       description: 'The title of the song',
-      example: 'Blank Space',
+      example: 'Enchanted',
       required: true
     }
   ]

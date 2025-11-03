@@ -4,12 +4,12 @@ const meta = {
   name: 'lyrics',
   desc: 'Search lyrics using lrclib.net API',
   method: ['get', 'post'],
-  category: 'Music',
+  category: 'search',
   params: [
     {
       name: 'title',
       description: 'Song title or query to search lyrics for',
-      example: 'bunga maaf',
+      example: 'Bulong',
       required: true
     }
   ]
