@@ -18,7 +18,8 @@ const meta = {
       name: 'model',
       description: 'The AI model (default, think-deeper, gpt-5)',
       example: 'default',
-      required: false
+      required: false,
+      options: ['default', 'think-deeper', 'gpt-5']
     }
   ]
 };

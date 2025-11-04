@@ -16,7 +16,8 @@ const meta = {
       name: 'model',
       description: "Optional model key: 'chatgpt4' (default) or 'chatgpt3'",
       example: 'chatgpt4',
-      required: false
+      required: false,
+      options: ['chatgpt4', 'chatgpt3']
     }
   ]
 };

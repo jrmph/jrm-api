@@ -112,6 +112,12 @@
             background-color: #9333ea;
             transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
+        .custom-dropdown button svg {
+            transition: transform 0.2s ease;
+        }
+        .custom-dropdown button.open svg {
+            transform: rotate(180deg);
+        }
     </style>
 </head>
 <body class="bg-black text-gray-200 antialiased font-mono min-h-screen">
@@ -234,6 +240,19 @@
                 closeSidebar();
                 notificationPanel.classList.add('hidden');
             }
+            const dropdowns = document.querySelectorAll('.custom-dropdown');
+            dropdowns.forEach(dropdown => {
+                if (!dropdown.contains(event.target)) {
+                    const options = dropdown.querySelector('.dropdown-options');
+                    if (options && !options.classList.contains('hidden')) {
+                        options.classList.add('slide-up');
+                        setTimeout(() => {
+                            options.classList.add('hidden');
+                            options.classList.remove('slide-up', 'slide-down');
+                        }, 150);
+                    }
+                }
+            });
         });
 
         clearNotificationsBtn.addEventListener('click', () => {
@@ -272,6 +291,52 @@
             }
         }
 
+        function toggleDropdown(dropdownId) {
+            document.querySelectorAll('.custom-dropdown').forEach(dd => {
+                if (dd.id !== dropdownId) {
+                    const opt = dd.querySelector('.dropdown-options');
+                    if (opt && !opt.classList.contains('hidden')) {
+                        opt.classList.add('slide-up');
+                        setTimeout(() => {
+                            opt.classList.add('hidden');
+                            opt.classList.remove('slide-up', 'slide-down');
+                        }, 150);
+                        const btn = dd.querySelector('button');
+                        if (btn) btn.classList.remove('open');
+                    }
+                }
+            });
+
+            const button = document.getElementById(`button-${dropdownId}`);
+            const options = document.getElementById(`options-${dropdownId}`);
+            const willOpen = options.classList.contains('hidden');
+
+            if (willOpen) {
+                options.classList.remove('hidden');
+                options.classList.add('slide-down');
+            } else {
+                options.classList.add('slide-up');
+                setTimeout(() => {
+                    options.classList.add('hidden');
+                    options.classList.remove('slide-up', 'slide-down');
+                }, 150);
+            }
+
+            if (willOpen) {
+                button.classList.add('open');
+            } else {
+                button.classList.remove('open');
+            }
+        }
+
+        function selectOption(dropdownId, value, label) {
+            const hiddenInput = document.querySelector(`#${dropdownId} input[type="hidden"]`);
+            if (hiddenInput) hiddenInput.value = value;
+            const selectedSpan = document.getElementById(`selected-${dropdownId}`);
+            if (selectedSpan) selectedSpan.textContent = label;
+            toggleDropdown(dropdownId);
+        }
+
         function generateExampleCurl(endpointIndex, method) {
             const form = document.getElementById(`form-${endpointIndex}`);
             const onsubmit = form.getAttribute('onsubmit');
@@ -282,11 +347,11 @@
             const currentDivClass = `.method-${method.toLowerCase()}-${endpointIndex}`;
             const currentDiv = form.querySelector(currentDivClass);
             if (!currentDiv) return;
-            const inputs = currentDiv.querySelectorAll('input[type="text"]');
+            const inputs = currentDiv.querySelectorAll('input[type="text"], input[type="hidden"]');
             let routeValues = {};
             let otherParams = {};
             inputs.forEach(input => {
-                const ex = input.placeholder || '';
+                const ex = input.value || input.placeholder || '';
                 if (input.name.startsWith('route_')) {
                     const pn = input.name.replace('route_', '');
                     routeValues[pn] = ex;
@@ -761,23 +826,56 @@
                     }
                     let formHtml = '';
                     if (item.params && item.params.length) {
-                        formHtml = item.params.map(p => `
-                            <div>
-                                <label class="block text-xs font-medium text-gray-300">
-                                    ${p.name} ${p.required ? '<span class="text-red-400">*</span>' : ''}
-                                </label>
-                                <div class="text-xs text-gray-500 mb-1">
-                                    ${p.description}
+                        formHtml = item.params.map((p, pIndex) => {
+                            let inputHtml;
+                            const paramName = basePath.includes(`:${p.name}`) ? `route_${p.name}` : p.name;
+                            if (p.options && Array.isArray(p.options)) {
+                                let optionsArr = p.options.map(opt => ({value: opt, label: opt}));
+                                let defaultLabel = '-- optional --';
+                                if (p.required) {
+                                    defaultLabel = optionsArr[0].label;
+                                } else {
+                                    optionsArr.unshift({value: '', label: defaultLabel});
+                                }
+                                let selectedValue = p.required 
+                                    ? (p.example && p.options.includes(p.example) ? p.example : (p.options[0] || ''))
+                                    : (p.example && p.options.includes(p.example) ? p.example : '');
+                                let selectedLabel = optionsArr.find(opt => opt.value === selectedValue)?.label || defaultLabel;
+                                const dropdownId = `dropdown-${index}-${pIndex}`;
+                                const optionsHtml = optionsArr.map(opt => `
+                                    <button type="button" onclick="selectOption('${dropdownId}', '${opt.value}', '${opt.label}')" class="w-full px-3 py-2 text-sm text-gray-100 hover:bg-gray-700 transition-all text-left ${opt.value === '' ? 'text-gray-500' : ''}">
+                                        ${opt.label}
+                                    </button>
+                                `).join('');
+                                inputHtml = `
+                                    <div class="relative custom-dropdown" id="${dropdownId}">
+                                        <input type="hidden" name="${paramName}" value="${selectedValue}">
+                                        <button id="button-${dropdownId}" type="button" onclick="toggleDropdown('${dropdownId}')" class="w-full px-3 py-2 border border-gray-700 bg-black text-sm text-gray-100 rounded-lg transition-all focus:shadow-sm focus:outline-none focus:border-purple-500 flex justify-between items-center">
+                                            <span id="selected-${dropdownId}">${selectedLabel}</span>
+                                            <svg class="w-3 h-3 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                            </svg>
+                                        </button>
+                                        <div id="options-${dropdownId}" class="dropdown-options hidden absolute w-full bg-black border border-gray-700 rounded-lg mt-1 z-10 max-h-40 overflow-y-auto shadow-lg">
+                                            ${optionsHtml}
+                                        </div>
+                                    </div>
+                                `;
+                            } else {
+                                inputHtml = `<input type="text" name="${paramName}" class="w-full px-3 py-2 border border-gray-700 bg-black text-sm focus:outline-none focus:border-purple-500 text-gray-100 placeholder:text-gray-500 rounded-lg transition-all focus:shadow-sm" placeholder="${p.example || ''}" ${p.required ? 'required' : ''}>`;
+                            }
+                            return `
+                                <div>
+                                    <label class="block text-xs font-medium text-gray-300">
+                                        ${p.name} ${p.required ? '<span class="text-red-400">*</span>' : ''}
+                                    </label>
+                                    <div class="text-xs text-gray-500 mb-1">
+                                        ${p.description}
+                                    </div>
+                                    ${inputHtml}
                                 </div>
-                                <input 
-                                    type="text" 
-                                    name="${basePath.includes(`:${p.name}`) ? `route_${p.name}` : p.name}" 
-                                    class="w-full px-3 py-2 border border-gray-700 bg-black text-sm focus:outline-none focus:border-purple-500 text-gray-100 placeholder:text-gray-500 rounded-lg transition-all focus:shadow-sm" 
-                                    placeholder="${p.example || ''}" 
-                                    ${p.required ? 'required' : ''}
-                                >
-                            </div>
-                        `).join('');
+                            `;
+                        }).join('');
                     }
                     const bodyExample = item.params ? JSON.stringify(item.params.reduce((acc, p) => { if (!basePath.includes(`:${p.name}`)) acc[p.name] = p.example || ''; return acc; }, {}), null, 2) : '{}';
                     let getStyle = methods.length > 1 ? '' : (methods[0] === 'GET' ? 'display: block;' : 'display: none;');
