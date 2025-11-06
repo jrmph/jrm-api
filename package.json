@@ -11,6 +11,7 @@
   "author": "AjiroDesu",
   "license": "MIT",
   "dependencies": {
+    "@delirius/welcard": "^1.0.39",
     "axios": "^1.6.8",
     "chalk": "^4.1.2",
     "cheerio": "^1.1.2",
