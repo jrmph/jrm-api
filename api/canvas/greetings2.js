@@ -56,9 +56,7 @@ class Greetings2 {
     const ctx = canvas.getContext('2d');
 
     const background = await loadImageOrig(this.bg);
-    ctx.globalAlpha = 0.4;
     ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
-    ctx.globalAlpha = 1.0;
 
     const fmUrl = this.type === 'welcome' ? this.welcomeFm : this.goodbyeFm;
     const fram = await loadImageOrig(fmUrl);
