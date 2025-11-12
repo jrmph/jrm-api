@@ -9,13 +9,13 @@ const meta = {
   params: [
     {
       name: 'avatar1',
-      description: 'URL of the first avatar image',
+      desc: 'URL of the first avatar image',
       example: 'https://raw.githubusercontent.com/lanceajiro/Storage/refs/heads/main/1756728735205.jpg',
       required: true
     },
     {
       name: 'avatar2',
-      description: 'URL of the second avatar image',
+      desc: 'URL of the second avatar image',
       example: 'https://raw.githubusercontent.com/Zaxerion/databased/refs/heads/main/asset/IMG-20210621-WA0000.jpg',
       required: true
     }

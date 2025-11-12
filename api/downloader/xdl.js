@@ -9,7 +9,7 @@ const meta = {
   params: [
     {
       name: 'url',
-      description: 'The X (Twitter) video URL',
+      desc: 'The X (Twitter) video URL',
       example: 'https://x.com/user/status/123456789',
       required: true
     }

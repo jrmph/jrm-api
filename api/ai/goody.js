@@ -9,7 +9,7 @@ const meta = {
   params: [
     {
       name: 'question',
-      description: 'The prompt or query to send to GoodyAI',
+      desc: 'The prompt or query to send to GoodyAI',
       example: 'Hello, how are you?',
       required: true
     }

@@ -13,7 +13,7 @@ const meta = {
   params: [
     {
       name: 'text',
-      description: 'The text content to paste',
+      desc: 'The text content to paste',
       example: 'Hello, world!',
       required: true
     }

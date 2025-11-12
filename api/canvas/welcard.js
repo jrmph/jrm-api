@@ -8,14 +8,14 @@ const meta = {
   method: ['get', 'post'],
   category: 'canvas',
   params: [
-    { name: 'name', description: 'Name to display on the card', example: 'Welcome', required: true },
-    { name: 'author', description: 'Author or participant name to display', example: 'Participants', required: true },
-    { name: 'server', description: 'Server or group name to display', example: 'Group Name 🪐', required: true },
-    { name: 'thumbnail', description: 'Thumbnail image URL', example: 'https://i.postimg.cc/3rLKbgLH/image.jpg', required: true },
-    { name: 'color', description: 'Card color (use "auto" for automatic detection)', example: 'auto', required: false },
-    { name: 'brightness', description: 'Brightness level (0 - 100)', example: 50, required: false },
-    { name: 'download', description: 'Set to true to force file download', example: 'true', required: false },
-    { name: 'filename', description: 'Filename for download (when download=true)', example: 'welcome.png', required: false }
+    { name: 'name', desc: 'Name to display on the card', example: 'Welcome', required: true },
+    { name: 'author', desc: 'Author or participant name to display', example: 'Participants', required: true },
+    { name: 'server', desc: 'Server or group name to display', example: 'Group Name 🪐', required: true },
+    { name: 'thumbnail', desc: 'Thumbnail image URL', example: 'https://i.postimg.cc/3rLKbgLH/image.jpg', required: true },
+    { name: 'color', desc: 'Card color (use "auto" for automatic detection)', example: 'auto', required: false },
+    { name: 'brightness', desc: 'Brightness level (0 - 100)', example: 50, required: false },
+    { name: 'download', desc: 'Set to true to force file download', example: 'true', required: false },
+    { name: 'filename', desc: 'Filename for download (when download=true)', example: 'welcome.png', required: false }
   ]
 };
 

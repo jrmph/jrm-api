@@ -10,7 +10,7 @@ const meta = {
   params: [
     {
       name: 'url',
-      description: 'The Pinterest video URL',
+      desc: 'The Pinterest video URL',
       example: 'https://www.pinterest.com/pin/123456789/',
       required: true
     }

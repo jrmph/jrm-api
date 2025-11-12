@@ -9,7 +9,7 @@ const meta = {
   params: [
     {
       name: 'url',
-      description: 'The Threads video URL',
+      desc: 'The Threads video URL',
       example: 'https://www.threads.net/@username/post/123',
       required: true
     }

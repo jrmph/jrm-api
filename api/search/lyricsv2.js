@@ -8,7 +8,7 @@ const meta = {
   params: [
     {
       name: 'title',
-      description: 'Song title or query to search lyrics for',
+      desc: 'Song title or query to search lyrics for',
       example: 'Bulong',
       required: true
     }

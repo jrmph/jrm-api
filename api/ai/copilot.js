@@ -10,13 +10,13 @@ const meta = {
   params: [
     {
       name: 'message',
-      description: 'The user message or query to send to Copilot AI',
+      desc: 'The user message or query to send to Copilot AI',
       example: 'Hello, how are you?',
       required: true
     }, 
     { 
       name: 'model',
-      description: 'The AI model (default, think-deeper, gpt-5)',
+      desc: 'The AI model (default, think-deeper, gpt-5)',
       example: 'default',
       required: false,
       options: ['default', 'think-deeper', 'gpt-5']

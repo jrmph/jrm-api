@@ -9,7 +9,7 @@ const meta = {
   params: [
     {
       name: 'token',
-      description: 'The authentication token',
+      desc: 'The authentication token',
       example: 'your_token_here',
       required: true
     }

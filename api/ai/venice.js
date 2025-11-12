@@ -8,13 +8,13 @@ const meta = {
   params: [
     {
       name: 'question',
-      description: 'Input your question here',
+      desc: 'Input your question here',
       example: 'What is the capital of Philippines?',
       required: true
     }, 
     { 
       name: 'systemPrompt',
-      description: 'input your system prompt here',
+      desc: 'input your system prompt here',
       example: 'You are my assistant',
       required: false
     }

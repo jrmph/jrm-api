@@ -9,7 +9,7 @@ const meta = {
   params: [
     {
       name: 'question',
-      description: 'The prompt or query to send to WebPilot',
+      desc: 'The prompt or query to send to WebPilot',
       example: 'Hello, how are you?',
       required: true
     }

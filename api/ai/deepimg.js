@@ -8,20 +8,20 @@ const meta = {
   params: [
     {
       name: 'prompt',
-      description: 'Text prompt for image generation',
+      desc: 'Text prompt for image generation',
       example: 'girl wearing glasses',
       required: true
     },
     {
       name: 'style',
-      description: "Image style: 'default' | 'ghibli' | 'cyberpunk' | 'anime' | 'portrait' | 'chibi' | 'pixel art' | 'oil painting' | '3d' (default: 'default')",
+      desc: "Image style: 'default' | 'ghibli' | 'cyberpunk' | 'anime' | 'portrait' | 'chibi' | 'pixel art' | 'oil painting' | '3d' (default: 'default')",
       example: 'anime',
       required: false,
       options: ['default', 'ghibli', 'cyberpunk', 'anime', 'portrait', 'chibi', 'pixel art', 'oil painting', '3d']
     },
     {
       name: 'size',
-      description: "Image size ratio: '1:1' | '3:2' | '2:3' (default: '1:1')",
+      desc: "Image size ratio: '1:1' | '3:2' | '2:3' (default: '1:1')",
       example: '3:2',
       required: false,
       options: ['1:1', '3:2', '2:3']

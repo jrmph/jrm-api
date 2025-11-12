@@ -9,7 +9,7 @@ const meta = {
   params: [
     {
       name: 'image',
-      description: 'URL of the image to overlay',
+      desc: 'URL of the image to overlay',
       example: 'https://raw.githubusercontent.com/lanceajiro/Storage/refs/heads/main/1756728735205.jpg',
       required: true
     }

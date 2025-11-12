@@ -9,7 +9,7 @@ const meta = {
   params: [
     {
       name: 'url',
-      description: 'The Facebook video URL to download',
+      desc: 'The Facebook video URL to download',
       example: 'https://www.facebook.com/watch?v=123456789',
       required: true
     }

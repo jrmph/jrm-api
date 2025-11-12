@@ -48,7 +48,7 @@ const meta = {
   params: [
     {
       name: 'avatar',
-      description: 'URL to the avatar image',
+      desc: 'URL to the avatar image',
       example: 'https://raw.githubusercontent.com/lanceajiro/Storage/refs/heads/main/1756728735205.jpg',
       required: true
     }

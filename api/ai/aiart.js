@@ -9,26 +9,26 @@ const meta = {
   params: [
     {
       name: 'prompt',
-      description: 'Prompt describing the image to generate',
+      desc: 'Prompt describing the image to generate',
       example: 'A cute pixel art cat',
       required: true
     },
     {
       name: 'style',
-      description: "Style: 'Anime' or 'Realistic' (default: 'Anime')",
+      desc: "Style: 'Anime' or 'Realistic' (default: 'Anime')",
       example: 'Realistic',
       required: false,
       options: ['Anime', 'Realistic']
     },
     {
       name: 'negativePrompt',
-      description: 'Negative prompt (filters unwanted elements)',
+      desc: 'Negative prompt (filters unwanted elements)',
       example: '(worst quality, low quality:1.4)',
       required: false
     },
     {
       name: 'scale',
-      description: 'Guidance/scale value (default: 7)',
+      desc: 'Guidance/scale value (default: 7)',
       example: '7',
       required: false
     }

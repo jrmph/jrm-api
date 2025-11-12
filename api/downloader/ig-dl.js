@@ -10,7 +10,7 @@ const meta = {
   params: [
     {
       name: 'url',
-      description: 'The Instagram video or reel URL',
+      desc: 'The Instagram video or reel URL',
       example: 'https://www.instagram.com/reel/ABC123/',
       required: true
     }

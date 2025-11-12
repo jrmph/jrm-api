@@ -8,13 +8,13 @@ const meta = {
   params: [
     {
       name: 'prompt',
-      description: 'The text prompt to send to the model',
+      desc: 'The text prompt to send to the model',
       example: 'Hello, how are you?',
       required: true
     }, 
     { 
       name: 'model',
-      description: "Optional model key: 'chatgpt4' (default) or 'chatgpt3'",
+      desc: "Optional model key: 'chatgpt4' (default) or 'chatgpt3'",
       example: 'chatgpt4',
       required: false,
       options: ['chatgpt4', 'chatgpt3']

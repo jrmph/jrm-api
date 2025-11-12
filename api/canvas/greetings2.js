@@ -107,38 +107,38 @@ const meta = {
   params: [
     {
       name: 'type',
-      description: 'Type of greeting',
+      desc: 'Type of greeting',
       options: ['welcome', 'goodbye'],
       example: 'welcome',
       required: true
     },
     {
       name: 'avatar',
-      description: 'URL to the avatar image',
+      desc: 'URL to the avatar image',
       example: 'https://raw.githubusercontent.com/lanceajiro/Storage/refs/heads/main/1756728735205.jpg',
       required: true
     },
     {
       name: 'username',
-      description: 'The username to display',
+      desc: 'The username to display',
       example: 'AjiroDesu',
       required: true
     },
     {
       name: 'bg',
-      description: 'URL to the background image',
+      desc: 'URL to the background image',
       example: 'https://raw.githubusercontent.com/lanceajiro/Storage/refs/heads/main/backiee-265579-landscape.jpg',
       required: true
     },
     {
       name: 'groupname',
-      description: 'The group name to display (required for welcome type)',
+      desc: 'The group name to display (required for welcome type)',
       example: 'Ajiro HQ',
       required: false
     },
     {
       name: 'member',
-      description: 'The member count to display',
+      desc: 'The member count to display',
       example: '57',
       required: true
     }

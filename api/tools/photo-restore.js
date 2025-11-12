@@ -9,7 +9,7 @@ const meta = {
     params: [
       {
         name: 'imageUrl',
-        description: 'URL of the old photo to restore',
+        desc: 'URL of the old photo to restore',
         example: 'https://example.com/old-photo.jpg',
         required: true
       }

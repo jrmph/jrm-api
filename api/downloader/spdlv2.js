@@ -9,7 +9,7 @@ const meta = {
   params: [
     {
       name: 'url',
-      description: 'The Spotify song URL',
+      desc: 'The Spotify song URL',
       example: 'https://open.spotify.com/track/5PyDJG7SQRgWXefgexqIge',
       required: true
     }

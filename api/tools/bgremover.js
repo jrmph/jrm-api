@@ -9,7 +9,7 @@ const meta = {
     params: [
       {
         name: 'imageUrl',
-        description: 'URL of the image to remove background from',
+        desc: 'URL of the image to remove background from',
         example: 'https://example.com/image.jpg',
         required: true
       }

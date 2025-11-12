@@ -17,19 +17,19 @@ const meta = {
   params: [
     {
       name: 'headline',
-      description: 'The main headline text for the news',
+      desc: 'The main headline text for the news',
       example: 'Breaking: Aliens Invade Earth',
       required: true
     },
     {
       name: 'bg',
-      description: 'Optional URL to the background image (defaults to a professional news studio)',
+      desc: 'Optional URL to the background image (defaults to a professional news studio)',
       example: 'https://t3.ftcdn.net/jpg/05/10/02/94/360_F_510029428_jEAIzygxz7TDH8szCuPnkwLnENTPVPTG.jpg',
       required: false
     },
     {
       name: 'ticker',
-      description: 'Optional text for the bottom news ticker (defaults to headline)',
+      desc: 'Optional text for the bottom news ticker (defaults to headline)',
       example: 'Stay tuned for more updates...',
       required: false
     }

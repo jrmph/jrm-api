@@ -8,7 +8,7 @@ const meta = {
   params: [
     {
       name: 'text',
-      description: 'The text to display on the image',
+      desc: 'The text to display on the image',
       example: 'AjiroDesu',
       required: true
     }

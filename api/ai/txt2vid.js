@@ -9,7 +9,7 @@ const meta = {
   params: [
     {
       name: 'prompt',
-      description: 'The text prompt describing the video you want to generate',
+      desc: 'The text prompt describing the video you want to generate',
       example: 'A cat playing with a ball',
       required: true
     }

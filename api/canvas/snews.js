@@ -590,25 +590,25 @@ const meta = {
   params: [
     {
       name: 'headline',
-      description: 'The headline text for the satire news',
+      desc: 'The headline text for the satire news',
       example: 'He love Jea',
       required: true
     },
     {
       name: 'name',
-      description: 'The name to use in the headline (e.g., "Lance claims that ...")',
+      desc: 'The name to use in the headline (e.g., "Lance claims that ...")',
       example: 'Lance',
       required: true
     },
     {
       name: 'pfp',
-      description: 'URL to the profile picture',
+      desc: 'URL to the profile picture',
       example: 'https://raw.githubusercontent.com/lanceajiro/Storage/refs/heads/main/1756728735205.jpg',
       required: true
     },
     {
       name: 'bg',
-      description: 'Optional URL to the background image (defaults to pfp)',
+      desc: 'Optional URL to the background image (defaults to pfp)',
       example: 'https://raw.githubusercontent.com/lanceajiro/Storage/refs/heads/main/backiee-265579-landscape.jpg',
       required: false
     }

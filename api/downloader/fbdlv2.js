@@ -11,7 +11,7 @@ const meta = {
   params: [
     {
       name: 'url',
-      description: 'Direct Facebook video URL to extract download links from',
+      desc: 'Direct Facebook video URL to extract download links from',
       example: 'https://www.facebook.com/watch?v=123456789',
       required: true
     }

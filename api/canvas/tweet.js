@@ -10,62 +10,62 @@ const meta = {
   params: [
     {
       name: 'text',
-      description: 'The main text content of the tweet',
+      desc: 'The main text content of the tweet',
       example: 'Tinuruan ko lang pano mag if-else mahal nya daw agad ako.',
       required: true
     },
     {
       name: 'name',
-      description: 'The display name of the user',
+      desc: 'The display name of the user',
       example: 'Lance Cochangco',
       required: false
     },
     {
       name: 'username',
-      description: 'Username of the user',
+      desc: 'Username of the user',
       example: '@ajirodesu',
       required: false
     },
     {
       name: 'avatar_url',
-      description: 'URL to the avatar image',
+      desc: 'URL to the avatar image',
       example: 'https://raw.githubusercontent.com/lanceajiro/Storage/refs/heads/main/1756728735205.jpg',
       required: false
     },
     {
       name: 'time',
-      description: 'The time of the post',
+      desc: 'The time of the post',
       example: '2:17 AM',
       required: false
     },
     {
       name: 'day',
-      description: 'The day of the post',
+      desc: 'The day of the post',
       example: 'Tuesday',
       required: false
     },
     {
       name: 'views',
-      description: 'The view count',
+      desc: 'The view count',
       example: '192.6K Views',
       required: false
     },
     {
       name: 'tag',
-      description: 'The tag or category',
+      desc: 'The tag or category',
       example: 'AJIRO HQ',
       required: false
     },
     {
       name: 'verified',
-      description: 'Whether to show verified badge (true/false)',
+      desc: 'Whether to show verified badge (true/false)',
       example: 'true',
       required: false,
       options: ['true', 'false']
     },
     {
       name: 'theme',
-      description: 'Theme options, e.g. "dark" for dark mode',
+      desc: 'Theme options, e.g. "dark" for dark mode',
       example: 'dark',
       required: false,
       options: ['light', 'dark']

@@ -9,7 +9,7 @@ const meta = {
   params: [
     {
       name: 'text',
-      description: 'The prompt or message to send to the model',
+      desc: 'The prompt or message to send to the model',
       example: 'Hello, how are you?',
       required: true
     }

@@ -12,13 +12,13 @@ const meta = {
   params: [
     {
       name: 'text1',
-      description: 'First text (left)',
+      desc: 'First text (left)',
       example: 'Lance',
       required: true
     },
     {
       name: 'text2',
-      description: 'Second text (right, highlighted)',
+      desc: 'Second text (right, highlighted)',
       example: 'Ajiro',
       required: true
     }

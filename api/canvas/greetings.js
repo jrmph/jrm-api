@@ -166,43 +166,43 @@ const meta = {
   params: [
     {
       name: 'type',
-      description: 'The type of greeting: welcome or goodbye',
+      desc: 'The type of greeting: welcome or goodbye',
       example: 'welcome',
       required: true
     },
     {
       name: 'avatar',
-      description: 'URL to the avatar image',
+      desc: 'URL to the avatar image',
       example: 'https://raw.githubusercontent.com/lanceajiro/Storage/refs/heads/main/1756728735205.jpg',
       required: true
     },
     {
       name: 'guildIcon',
-      description: 'URL to the guild icon image',
+      desc: 'URL to the guild icon image',
       example: 'https://raw.githubusercontent.com/lanceajiro/Storage/refs/heads/main/1760059385426.jpg',
       required: true
     },
     {
       name: 'bg',
-      description: 'URL to the background image',
+      desc: 'URL to the background image',
       example: 'https://raw.githubusercontent.com/lanceajiro/Storage/refs/heads/main/backiee-265579-landscape.jpg',
       required: true
     },
     {
       name: 'username',
-      description: 'The username to display',
+      desc: 'The username to display',
       example: 'AjiroDesu',
       required: true
     },
     {
       name: 'guildName',
-      description: 'The guild name to display',
+      desc: 'The guild name to display',
       example: 'My Server',
       required: true
     },
     {
       name: 'memberCount',
-      description: 'The member count to display',
+      desc: 'The member count to display',
       example: '100',
       required: true
     }

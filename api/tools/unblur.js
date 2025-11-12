@@ -11,7 +11,7 @@ const meta = {
   params: [
     {
       name: 'url',
-      description: 'Direct URL to the image to unblur',
+      desc: 'Direct URL to the image to unblur',
       example: 'https://example.com/blurry-image.jpg',
       required: true
     }

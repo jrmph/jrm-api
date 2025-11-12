@@ -18,13 +18,13 @@ const meta = {
   params: [
     {
       name: 'image',
-      description: 'The image data (base64 string or URL)',
+      desc: 'The image data (base64 string or URL)',
       example: 'https://example.com/image.jpg',
       required: true
     },
     {
       name: 'type',
-      description: 'Type of the image input',
+      desc: 'Type of the image input',
       options: ['base64', 'url'],
       example: 'url',
       required: true

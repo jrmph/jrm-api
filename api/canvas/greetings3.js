@@ -91,26 +91,26 @@ const meta = {
   params: [
     {
       name: 'type',
-      description: 'Type of greeting',
+      desc: 'Type of greeting',
       options: ['welcome', 'goodbye'],
       example: 'welcome',
       required: true
     },
     {
       name: 'avatar',
-      description: 'URL to the avatar image',
+      desc: 'URL to the avatar image',
       example: 'https://raw.githubusercontent.com/lanceajiro/Storage/refs/heads/main/1756728735205.jpg',
       required: true
     },
     {
       name: 'username',
-      description: 'The username to display',
+      desc: 'The username to display',
       example: 'AjiroDesu',
       required: true
     },
     {
       name: 'bg',
-      description: 'URL to the background image (optional, defaults to a predefined background based on type)',
+      desc: 'URL to the background image (optional, defaults to a predefined background based on type)',
       example: 'https://raw.githubusercontent.com/lanceajiro/Storage/refs/heads/main/backiee-265579-landscape.jpg',
       required: false
     }

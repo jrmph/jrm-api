@@ -9,7 +9,7 @@ const meta = {
     params: [
       {
         name: 'imageUrl',
-        description: 'URL of the image to upscale',
+        desc: 'URL of the image to upscale',
         example: 'https://www.thispersondoesnotexist.com',
         required: true
       }

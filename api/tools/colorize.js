@@ -9,7 +9,7 @@ const meta = {
     params: [
       {
         name: 'imageUrl',
-        description: 'URL of the image to colorize',
+        desc: 'URL of the image to colorize',
         example: 'https://example.com/bw-image.jpg',
         required: true
       }

@@ -8,26 +8,26 @@ const meta = {
   params: [
     {
       name: 'mode',
-      description: "Operation mode: 'img' to convert an uploaded image, 'text' to generate from prompt",
+      desc: "Operation mode: 'img' to convert an uploaded image, 'text' to generate from prompt",
       example: 'img',
       required: true,
       options: ['img', 'text']
     },
     {
       name: 'image',
-      description: 'Base64-encoded image data (required when mode=img). Data URI prefix (e.g. data:image/jpeg;base64,...) is accepted.',
+      desc: 'Base64-encoded image data (required when mode=img). Data URI prefix (e.g. data:image/jpeg;base64,...) is accepted.',
       example: '<base64 string>',
       required: false
     },
     {
       name: 'prompt',
-      description: 'Text prompt used when mode=text',
+      desc: 'Text prompt used when mode=text',
       example: 'A cute pixel art cat',
       required: false
     },
     {
       name: 'ratio',
-      description: "Image ratio: '1:1' | '3:2' | '2:3' (default: '1:1')",
+      desc: "Image ratio: '1:1' | '3:2' | '2:3' (default: '1:1')",
       example: '1:1',
       required: false,
       options: ['1:1', '3:2', '2:3']

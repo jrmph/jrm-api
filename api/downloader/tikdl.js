@@ -9,7 +9,7 @@ const meta = {
   params: [
     {
       name: 'url',
-      description: 'The TikTok video URL',
+      desc: 'The TikTok video URL',
       example: 'https://www.tiktok.com/@user/video/123456789',
       required: true
     }

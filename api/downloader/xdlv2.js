@@ -10,7 +10,7 @@ const meta = {
   params: [
     {
       name: 'url',
-      description: 'Direct X/Twitter post URL to extract media from',
+      desc: 'Direct X/Twitter post URL to extract media from',
       example: 'https://x.com/user/status/123456789',
       required: true
     }
