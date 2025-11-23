@@ -179,7 +179,7 @@ const chalk = require('chalk');
       return res.status(401).json({ error: 'Unauthorized' });
     }
 
-    const { message, clear } = req.body;
+    const { message, clear, firstName } = req.body;
 
     const notifPath = path.join(__dirname, 'setup', 'notif.json');
     let notifications = [];
@@ -203,8 +203,9 @@ const chalk = require('chalk');
 
     const newNotif = {
       id: Date.now(),
-      title: 'From Developer',
-      message: message.trim()
+      title: `From Developer ${firstName || ''}`.trim(),
+      message: message.trim(),
+      createdAt: Date.now()
     };
 
     notifications.push(newNotif);
