@@ -1,8 +1,8 @@
 module.exports = {
-  name: "Shin APIs",
+  name: "JRM APIs",
   description:
     "Simple and easy to use",
-  key: "ajiro2005",
+  key: "jrmph2025",
   header: {
     status: "Online!",
     imageSrc: [
@@ -15,8 +15,8 @@ module.exports = {
     },
   },
   icon: "/docs/image/icon.png",
-  operator: "AjiroDesu",
-  telegram: "https://t.me/+AQO22J2q6KBlNWM1",
-  messenger: "https://m.me/j/Aba0mwuz9PTv7bP9/",
-  github: "https://github.com/ajirodesu"
+  operator: "jrmph",
+  telegram: "https://t.me/+uj41DyY8VCkwM2Q1",
+  messenger: "https://m.me/jhames.rhonnielle.martin",
+  github: "https://github.com/jrmph"
 };
